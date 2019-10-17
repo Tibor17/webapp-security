@@ -170,7 +170,7 @@ Add the SQL driver for the PostgresSQL database
 <module xmlns="urn:jboss:module:1.1" name="org.postgres">
 
     <resources>
-        <resource-root path="postgresql-42.2.6.jar"/>
+        <resource-root path="postgresql-42.2.8.jar"/>
     </resources>
 
     <dependencies>
@@ -193,7 +193,9 @@ $ $WILDFLY_HOME/bin/standalone.sh -c standalone.xml -Djboss.server.config.dir=/o
 ----
 ====
 
-image:docs/wildfly-8.2.1-intellij-idea-Run_Debug_Configurations[Sunset,150,150,role="middle"]
+This is the same configuration of Wildfly runtime in IntelliJ IDEA:
+
+image:docs/wildfly-8.2.1-intellij-idea-Run_Debug_Configurations.jpg[width=90%,role="left"]
 
 == Build docker image and run with external PostgreSQL database
 
