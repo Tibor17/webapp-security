@@ -6,21 +6,77 @@
 
     <groupId>com.github.tibor17</groupId>
     <artifactId>webapp-jaas-parent</artifactId>
+    <packaging>pom</packaging>
     <version>1.0.0-SNAPSHOT</version>
 
+    <modules>
+        <module>webapp-jaas-wildfly8</module>
+        <module>thorntail-links</module>
+        <module>docker-images</module>
+        <module>webapp-jaas-wildfly17</module>
+    </modules>
+
     <properties>
-        <maven.compiler.source>13</maven.compiler.source>
-        <maven.compiler.target>13</maven.compiler.target>
-        <maven.compiler.release>13</maven.compiler.release>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+<!--        <maven.compiler.release>8</maven.compiler.release>-->
+        <docker.fileName>Dockerfile</docker.fileName>
+        <docker.name>tibor17/${project.artifactId}</docker.name>
+        <docker.tags.0>latest</docker.tags.0>
+        <docker.labels.version>latest</docker.labels.version>
+        <docker.verbose>true</docker.verbose>
+        <docker.useColor>true</docker.useColor>
     </properties>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>javax</groupId>
+                <artifactId>javaee-api</artifactId>
+                <version>7.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>1.7.28</version>
+            </dependency>
+            <dependency>
+                <groupId>org.primefaces</groupId>
+                <artifactId>primefaces</artifactId>
+                <version>5.3</version>
+            </dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.12</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <build>
+        <!--
+        https://github.com/vackosar/gitflow-incremental-builder
+        -->
+        <!--<extensions>
+            <extension>
+                <groupId>com.vackosar.gitflowincrementalbuilder</groupId>
+                <artifactId>gitflow-incremental-builder</artifactId>
+                <version>3.8</version>
+            </extension>
+        </extensions>-->
         <pluginManagement>
             <plugins>
                 <plugin>
                     <!-- This version is incremental compiler. -->
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.8.1</version>
+                </plugin>
+                <plugin>
+                    <!-- https://github.com/spotify/dockerfile-maven -->
+                    <groupId>com.spotify</groupId>
+                    <artifactId>dockerfile-maven-plugin</artifactId>
+                    <version>1.4.12</version>
                 </plugin>
             </plugins>
         </pluginManagement>

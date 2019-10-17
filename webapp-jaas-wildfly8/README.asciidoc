@@ -1,0 +1,6 @@
+myfear/admin
+
+docker build -t db ./docker/postgres/
+docker run --rm -it postgres:11 /bin/sh
+docker-compose up -d
+docker-compose --x-networking up -d

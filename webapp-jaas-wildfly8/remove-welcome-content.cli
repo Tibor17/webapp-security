@@ -1,0 +1,6 @@
+# https://access.redhat.com/documentation/en-us/red_hat_jboss_enterprise_application_platform/7.0/html/configuration_guide/configuring_the_web_server_undertow
+batch
+/subsystem=undertow/server=default-server/host=default-host/location="\/":remove()
+/subsystem=undertow/configuration=handler/file=welcome-content:remove()
+run-batch
+:reload

@@ -1,0 +1,43 @@
+version: "3.5"
+services:
+#  tmp:
+#    container_name: tmp:latest
+#    build: docker/tmp/
+
+  postgres:
+    container_name: postgres
+    build: docker/postgres/
+    environment:
+      - LC_ALL=C.UTF-8
+      # Identity and Access Management (IAM)
+      - POSTGRES_USER=iam
+      - POSTGRES_PASSWORD=adm123!
+    ports:
+      - "127.0.0.1:5432:5432/tcp"
+    restart: "always"
+    #networks:
+      #- jaas
+
+    # Good to save map the Postgres data to the box host
+    # Problems with user 'postgres' on Windows https://github.com/docker/for-win/issues/445
+    # https://github.com/docker-library/postgres/issues/435
+    #volumes:
+      #- ${VOLUME_MAPPING_HOST_DIR}/postgres-data:/var/lib/postgresql/data
+  app:
+    container_name: app
+    build: docker/tmp/
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"   # application
+    environment:
+      - POSTGRESQL_LOGIN=iam
+      - POSTGRESQL_PSWD=adm123!
+      - POSTGRESQL_HOST=postgres
+      - LOG_LEVEL=INFO
+    #networks:
+      #- jaas
+
+networks:
+  default:
+    driver: bridge

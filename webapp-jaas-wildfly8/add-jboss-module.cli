@@ -1,0 +1,8 @@
+set lib=${POSTGRESQL_LIB_PATH}
+
+if (outcome != success) of /host=master/core-service=module-loading/:list-resource-loader-paths(module=org.postgres)
+#    echo Installing the module 'org.postgres' with the library $lib ...
+    module add --name=org.postgres --resources=$lib --dependencies=javax.api,javax.transaction.api
+else
+    echo The module 'org.postgres' already installed!
+end-if

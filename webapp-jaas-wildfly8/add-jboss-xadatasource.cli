@@ -1,0 +1,51 @@
+set login=${POSTGRESQL_LOGIN}
+set pswd=${POSTGRESQL_PSWD}
+set host=${POSTGRESQL_HOST}
+set port=${POSTGRESQL_PORT}
+set database=${POSTGRESQL_DB}
+
+# Uncomment this line to test the resolution of login.
+#:resolve-expression(expression=$login)
+
+/subsystem=datasources/data-source=ExampleDS:remove()
+/subsystem=datasources/jdbc-driver=h2:remove()
+## does not work on WF8
+/subsystem=ee/service=default-bindings:write-attribute(name=datasource,value=undefined)
+#/subsystem=ee/service=default-bindings:remove()
+#/subsystem=ee/service=default-bindings:write-attribute(name=datasource,value="java:jboss/datasources/UserDS")
+#/subsystem=ee/service=default-bindings:add( \
+#    context-service="java:jboss/ee/concurrency/context/default" \
+#    managed-executor-service="java:jboss/ee/concurrency/executor/default" \
+#    managed-scheduled-executor-service="java:jboss/ee/concurrency/scheduler/default" \
+#    managed-thread-factory="java:jboss/ee/concurrency/factory/default")
+
+# Tutorial: https://access.redhat.com/documentation/en-us/red_hat_jboss_enterprise_application_platform/6.4/html/administration_and_configuration_guide/sect-database_connection_validation
+if (outcome != success) of /subsystem="datasources"/xa-data-source="UserDS":read-resource
+    /subsystem=datasources/xa-data-source="UserDS":add( \
+        jndi-name="java:jboss/datasources/UserDS", \
+        user-name=$login, \
+        password=$pswd, \
+        xa-datasource-class="org.postgresql.xa.PGXADataSource", \
+        driver-name="postgres", \
+        check-valid-connection-sql="select 1", \
+        min-pool-size="1", \
+        max-pool-size="20", \
+        valid-connection-checker-class-name="org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLValidConnectionChecker", \
+        exception-sorter-class-name="org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLExceptionSorter", \
+        validate-on-match="true", \
+        use-fast-fail="true", \
+        background-validation="true", \
+        background-validation-millis="25000", \
+        idle-timeout-minutes="1")
+    /subsystem=datasources/xa-data-source="UserDS"/xa-datasource-properties=ServerName:add(value=$host)
+    /subsystem=datasources/xa-data-source="UserDS"/xa-datasource-properties=PortNumber:add(value=$port)
+    /subsystem=datasources/xa-data-source="UserDS"/xa-datasource-properties=DatabaseName:add(value=$database)
+end-if
+
+echo "Datasource references:"
+/subsystem=datasources:read-resource(recursive=true)
+
+echo "Driver references:"
+/subsystem=datasources:installed-drivers-list
+
+:reload

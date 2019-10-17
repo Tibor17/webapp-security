@@ -1,0 +1,7 @@
+#
+# https://download.primekey.se/docs/EJBCA-Enterprise/latest/WildFly_14___JBoss_EAP_7.2.html
+#
+
+/subsystem=deployment-scanner/scanner=default:write-attribute(name=scan-interval,value=0)
+/core-service=management/management-interface=http-interface:write-attribute(name=console-enabled,value=false)
+:reload

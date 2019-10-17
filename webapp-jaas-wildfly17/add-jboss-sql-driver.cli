@@ -1,0 +1,6 @@
+if (outcome != success) of /subsystem="datasources"/jdbc-driver="postgres":read-resource
+    /subsystem=datasources/jdbc-driver=postgres:add( \
+        driver-name="postgres", \
+        driver-module-name="org.postgres", \
+        driver-xa-datasource-class-name=org.postgresql.xa.PGXADataSource)
+end-if

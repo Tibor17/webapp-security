@@ -1,0 +1,9 @@
+#set lib=${mylib}
+echo tibor POSTGRESQL_DB=${POSTGRESQL_DB}
+if (outcome != success) of /host=master/core-service=module-loading/:list-resource-loader-paths(module=org.postgres)
+    echo Installing the module 'org.postgres' with library ${POSTGRESQL_LIB} ${mylib} ${lib} ${_POSTGRESQL_DB_} ${env._POSTGRESQL_DB_} ...
+    echo "Installing the module 'org.postgres' with library ${POSTGRESQL_LIB} ${mylib} ${lib} ${_POSTGRESQL_DB_} ${env._POSTGRESQL_DB_} ..."
+    module add --name=org.postgres --resources=../../${lib} --dependencies=javax.api,javax.transaction.api
+else
+    echo The module 'org.postgres' already installed!
+end-if

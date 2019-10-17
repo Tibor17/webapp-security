@@ -1,0 +1,19 @@
+# you can use the class name "org.jboss.security.auth.spi.DatabaseServerLoginModule"
+# or the alias in default Wildfly Picketbox module for JAAS.
+# "code"=>"Database"
+
+if (outcome != success) of /subsystem="security"/security-domain="secureDomain":read-resource
+    /subsystem=security/security-domain=secureDomain:add(cache-type=default, flushOnSessionInvalidation=true)
+    /subsystem=security/security-domain=secureDomain/authentication=classic:add( \
+        login-modules=[{"code"=>"org.jboss.security.auth.spi.DatabaseServerLoginModule", \
+            "flag"=>"required", \
+            "module-options"=>[ \
+                ("dsJndiName"=>"java:jboss/datasources/UserDS"), \
+                ("principalsQuery"=>"SELECT passwd FROM users WHERE username=?"), \
+                ("rolesQuery"=>"SELECT role, 'Roles' FROM userroles WHERE username=?"), \
+                ("hashAlgorithm"=>"SHA-256"), \
+                ("hashEncoding"=>"base64"), \
+                ("hashCharset"=>"UTF-8")] \
+            }]
+end-if
+:reload

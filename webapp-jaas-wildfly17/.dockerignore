@@ -1,0 +1,6 @@
+**
+!target/*.war
+!target/*.jar
+!Dockerfile
+!docker-entrypoint.sh
+!*.cli

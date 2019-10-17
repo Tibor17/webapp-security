@@ -1,0 +1,152 @@
+https://docs.docker.com/compose/gettingstarted/
+https://docs.docker.com/compose/compose-file/compose-file-v1/
+https://hub.docker.com/_/postgres
+https://jakarta.ee/specifications/
+https://docs.docker.com/samples/library/postgres/
+https://github.com/bitnami/bitnami-docker-mariadb/issues/156
+http://localhost:8080/wf8/faces/index.xhtml;jsessionid=6j5HfXmh7h9kCodOFpOhaPx2.ca6c6d528368
+https://linuxize.com/post/how-to-build-docker-images-with-dockerfile/
+https://github.com/docker-library/postgres/issues/308
+https://github.com/lelit/asyncpg-issue158/commit/b7be6bb049084f33500bcb0e2d34fc9f69b60df4
+https://github.com/docker/compose/issues/2775
+https://hub.docker.com/r/tibor17/private-repo-1/builds
+https://hub.docker.com/_/postgres
+https://hub.docker.com/r/bitnami/postgresql/
+https://howchoo.com/g/zwjhogrkywe/how-to-add-a-health-check-to-your-docker-container
+https://medium.com/google-cloud/dockerfile-go-healthchecks-k8s-9a87d5c5b4cb
+https://www.youtube.com/watch?v=FL0JNVK2Ig8
+
+docker-compose up --force-recreate --always-recreate-deps --build
+docker rm postgres
+docker rm app
+docker-compose ps
+docker-compose ps -q app
+docker network ls
+docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' app
+docker inspect --format '{{ .NetworkSettings.IPAddress }}' *
+docker inspect --format '{{ .NetworkSettings.IPAddress }}' app
+
+C:\vcs\release\webapp-security\docker-images\busybox-jre13>
+docker run -it --rm webapp-jaas-wildfly8:latest /bin/sh
+docker run -it --rm jboss/wildfly:17.0.1.Final /bin/sh
+docker run -it --rm debian:stretch-slim /bin/sh
+docker run -it --rm debian:stretch /bin/sh
+docker run -it --rm tibor17/busybox-jre13 /bin/sh
+docker run -it --rm busybox-jre13 /bin/sh
+docker run -it --rm busybox-jre /bin/sh
+docker run -it --rm C:\vcs\release\webapp-security\docker-images\busybox-jre13\Dockerfile /bin/sh
+C:\vcs\release\webapp-security\docker-images\busybox-jre13>docker -it --rm C:\vcs\release\webapp-security\docker-images\busybox-jre13\Dockerfile /bin/sh
+
+docker info   & systeminfo   & docker-compose --version
+Network Card(s):           7 NIC(s) Installed.
+                           ...
+                           [06]: Hyper-V Virtual Ethernet Adapter
+                                 Connection Name: vEthernet (nat)
+                                 DHCP Enabled:    No
+                                 IP address(es)
+                                 [01]: 172.22.192.1
+                                 [02]: fe80::90f1:6619:be88:2d24
+
+C:\vcs\release\webapp-security\webapp-jaas-wildfly8>docker run --name=wf8app -d --stop-timeout 3 --rm -p 8080:8080 -p 9990:9990 -p 5432:5432 --add-host=database:172.22.192.1 -e POSTGRESQL_HOST=database -e LOG_LEVEL=INFO tibor17/webapp-jaas-wildfly8:latest
+C:\vcs\release\webapp-security\webapp-jaas-wildfly8>docker build -t tibor17/webapp-jaas-wildfly8:latest .
+C:\vcs\release\webapp-security\webapp-jaas-wildfly8>docker run --name=wf8app -d --stop-timeout 3 --rm -p 8080:8080 -p 9990:9990 -p 5432:5432 --add-host=database:172.22.192.1 -e POSTGRESQL_HOST=database -e LOG_LEVEL=INFO tibor17/webapp-jaas-wildfly8:latest
+C:\vcs\release\webapp-security\webapp-jaas-wildfly8>docker inspect --format="{{json .State.Health}}" wf8app
+C:\vcs\release\webapp-security\webapp-jaas-wildfly8>docker build -t tibor17/webapp-jaas-wildfly8:latest .
+C:\vcs\release\webapp-security\webapp-jaas-wildfly8>docker run --name=wf8app -d --stop-timeout 3 --rm -p 8080:8080 -p 9990:9990 -p 5432:5432 --add-host=database:172.22.192.1 -e POSTGRESQL_HOST=database -e LOG_LEVEL=INFO tibor17/webapp-jaas-wildfly8:latest
+C:\vcs\release\webapp-security\webapp-jaas-wildfly8>docker run --name=wf8app -d --stop-timeout 3 -it --rm -p 8080:8080 -p 9990:9990 -p 5432:5432 --add-host=database:172.22.192.1 -e POSTGRESQL_HOST=database -e LOG_LEVEL=INFO tibor17/webapp-jaas-wildfly8:latest
+C:\vcs\release\webapp-security\webapp-jaas-wildfly8>docker run --name=app -d --stop-timeout 3 -it --rm -p 8080:8080 -p 9990:9990 -p 5432:5432 --add-host=database:172.22.192.1 -e POSTGRESQL_HOST=database -e LOG_LEVEL=INFO tibor17/webapp-jaas-wildfly8:latest
+C:\vcs\release\webapp-security\webapp-jaas-wildfly8>docker run -it --rm -p 8080:8080 -p 9990:9990 -p 5432:5432 --add-host=database:172.22.192.1 -e POSTGRESQL_HOST=database -e LOG_LEVEL=INFO tibor17/webapp-jaas-wildfly8:latest
+C:\vcs\release\webapp-security\webapp-jaas-wildfly8>docker run -it --rm -p 8080:8080 -p 9990:9990 -p 5432:5432 --add-host=database:172.22.192.1 -e POSTGRESQL_HOST=database -e LOG_LEVEL=INFO tibor17/webapp-jaas-wildfly8:latest
+C:\vcs\release\webapp-security\webapp-jaas-wildfly8>docker build -t tibor17/webapp-jaas-wildfly8:latest .
+C:\vcs\release\webapp-security\webapp-jaas-wildfly8>docker run -it --rm -p 8080:8080 -p 9990:9990 -p 5432:5432 --add-host=database:172.22.192.1 -e POSTGRESQL_HOST=database -e LOG_LEVEL=INFO tibor17/webapp-jaas-wildfly8:latest
+C:\vcs\release\webapp-security\webapp-jaas-wildfly8>docker run tibor17/webapp-jaas-wildfly8:latest -it --rm -p 8080:8080 -p 9990:9990 -p 5432:5432 --add-host=database:172.22.192.1 -e POSTGRESQL_HOST=database -e LOG_LEVEL=INFO
+C:\vcs\release\webapp-security\webapp-jaas-wildfly8>docker run -it --rm -p 8080:8080 -p 9990:9990 -p 5432:5432 --add-host=database:172.22.192.1 -e POSTGRESQL_HOST=database -e LOG_LEVEL=INFO tibor17/webapp-jaas-wildfly8:latest /bin/sh
+C:\vcs\release\webapp-security\webapp-jaas-wildfly8>docker run tibor17/webapp-jaas-wildfly8:latest -it --rm -p 8080:8080 -p 9990:9990 -p 5432:5432 --add-host=database:172.22.192.1 -e POSTGRESQL_HOST=database -e LOG_LEVEL=INFO
+C:\vcs\release\webapp-security\webapp-jaas-wildfly8>docker run -it --rm -p 8080:8080 -p 9990:9990 -p 5432:5432 --add-host=database:172.22.192.1 -e POSTGRESQL_HOST=database -e LOG_LEVEL=INFO
+C:\vcs\release\webapp-security\webapp-jaas-wildfly8>docker build -t webapp-jaas-wildfly8:latest .
+
+C:\wildfly-8.2.1.Final\bin>add-user.bat -u %WILDFLY_ADMIN_USER% -p %WILDFLY_ADMIN_PASSWORD% --silent
+C:\wildfly-8.2.1.Final\bin>set WILDFLY_ADMIN_PASSWORD=Admin#70365
+C:\wildfly-8.2.1.Final\bin>set WILDFLY_ADMIN_USER=admin
+C:\wildfly-8.2.1.Final\bin>add-user.bat -u admin -p Admin#70365 --silent
+C:\wildfly-8.2.1.Final\bin>add-user.bat
+
+c:\wildfly-8.2.1.Final\bin>set JAVA_HOME=c:\Program Files\Java\jdk1.8.0_221
+c:\wildfly-8.2.1.Final\bin>jboss-cli.bat  -c --command="/subsystem=undertow/server=default-server/host=default-host/location=\/:remove"
+c:\wildfly-8.2.1.Final\bin>cd c:\wildfly-8.2.1.Final\bin
+
+
+C:\vcs\release\webapp-security\docker-images\busybox-jre13>docker run --rm -p 8080:8080 -p 9990:9990 -p 5432:5432 --add-host=database:172.17.0.0 -it webapp-jaas-wildfly17:latest /bin/sh
+C:\vcs\release\webapp-security\docker-images\busybox-jre13>docker run --rm -p 8080:8080 -p 9990:9990 -p 5432:5432 --add-host=database:172.17.0.0 -it webapp-jaas-wildfly17:latest /bin/sh
+C:\vcs\release\webapp-security\docker-images\busybox-jre13>docker run --rm -p 8080:8080 -p 9990:9990 -p 5432:5432 --add-host=database:172.17.0.0 -it webapp-jaas-wildfly8:latest /bin/sh
+C:\vcs\release\webapp-security\docker-images\busybox-jre13>docker run --rm -it webapp-jaas-wildfly8:latest /bin/sh
+C:\vcs\release\webapp-security\docker-images\busybox-jre13>docker images
+C:\vcs\release\webapp-security\docker-images\busybox-jre13>docker rmi webapp-jaas-wildfly8:latest
+C:\vcs\release\webapp-security\docker-images\busybox-jre13>docker system prune
+C:\vcs\release\webapp-security\docker-images\busybox-jre13>docker run --rm -it webapp-jaas-wildfly8:latest /bin/sh
+C:\vcs\release\webapp-security\docker-images\busybox-jre13>docker build -t tibor17/busybox-with-gnulibs:latest -f Dockerfile
+C:\vcs\release\webapp-security\docker-images\busybox-jre13>docker build -t tibor17/busybox-with-gnulibs:latest .
+===
+komandy z idei:
+docker rm postgres
+docker rm app
+C:\vcs\release\webapp-security\webapp-jaas-wildfly8>docker-compose up --force-recreate --always-recreate-deps --build
+docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' app
+docker-compose ps -q stage
+docker-compose ps -q ap
+docker network ls
+===
+galleon kommandy:
+C:\Users\tibor17>set JAVA_HOME=c:\Program Files\Java\jdk1.8.0_221
+C:\Users\tibor17>galleon
+[tibor17]$ install wildfly:17.0#17.0.1.Final --verbose --file=c:\vcs\github\wildfly-datasources-galleon-pack\target\wildfly-datasources-galleon-pack-1.0.5.Final-SNAPSHOT.zip
+[tibor17]$ update --dir=c:\vcs\github\galleon-openshift\drivers-galleon-pack\build-wildfly\target\wildfly --feature-packs=org.jboss.galleon.demo:postgresql@galleon1:1#1.0
+[tibor17]$ update --dir=c:\vcs\github\galleon-openshift\drivers-galleon-pack\build-wildfly\target\wildfly --feature-packs=org.jboss.galleon.demo:postgresql@galleon1:2#1.0
+[tibor17]$ install org.jboss.galleon.demo:postgresql@galleon1:1#1.0 --dir=c:\vcs\github\galleon-openshift\drivers-galleon-pack\build-wildfly\target\wildfly
+[tibor17]$ update --dir=c:\vcs\github\galleon-openshift\drivers-galleon-pack\build-wildfly\target\wildfly --feature-packs=org.jboss.galleon.demo:postgresql@galleon1:1#1.0
+[tibor17]$ update --dir=c:\vcs\github\galleon-openshift\drivers-galleon-pack\build-wildfly\target\wildfly --feature-packs=org.jboss.galleon.demo:postgresql@galleon1:1#1.0
+[tibor17]$ update --dir=c:\vcs\github\galleon-openshift\drivers-galleon-pack\build-wildfly\target\wildfly --feature-packs=org.jboss.galleon.demo:postgresql@galleon1:1#1.0 --include-all-dependencies=false
+[tibor17]$ provision provisioning.xml --dir=target/wildfly
+[tibor17]$ provision provisioning.xml --dir=target/wildfly
+[tibor17]$ feature-pack get-info org.jboss.galleon.demo:postgresql@galleon1:1#1.0
+[tibor17]$ feature-pack get-info org.wildfly.galleon.demo:postgresql-galleon-pack@galleon1:1#1.0.0.Final
+[tibor17]$ feature-pack get-info org.wildfly.galleon.demo:postgresql-galleon-pack@galleon1:1.0.0.Final
+[tibor17]$ feature-pack get-info org.wildfly.galleon.demo:postgresql-galleon-pack@galleon1:1
+[tibor17]$ feature-pack get-info org.wildfly.galleon.demo:postgresql-galleon-pack@galleon1:1#1.0.0.Final
+[tibor17]$ provision ../provisioning.xml --dir=wildfly
+[tibor17]$ provision ../provisioning.xml --dir=wildfly
+[tibor17]$ feature-pack get-info org.wildfly.galleon.demo:postgresql-galleon-pack@galleon1:1#1.0.0.Final
+[tibor17]$ feature-pack get-info org.wildfly.galleon.demo:postgresql-galleon-pack@galleon1:1.0.0.Final
+[tibor17]$ feature-pack get-info org.jboss.galleon.demo:postgresql@galleon1:1#1.0
+[tibor17]$ feature-pack get-info org.jboss.galleon.demo:postgresql
+[tibor17]$ feature-pack get-info wildfly:17.0
+[tibor17]$ feature-pack get-info wildfly
+[tibor17]$ feature-pack get-info postgre
+[tibor17]$ install --verbose --file=c:\vcs\github\wildfly-datasources-galleon-pack\target\wildfly-datasources-galleon-pack-1.0.5.Final-SNAPSHOT.zip --dir=c:/wildfly17-galleon-all-17
+[tibor17]$ install --verbose --file=c:\vcs\github\wildfly-datasources-galleon-pack\target\wildfly-datasources-galleon-pack-1.0.5.Final-SNAPSHOT.zip --dir=c:/wildfly17-galleon-all-17-1
+[tibor17]$ install 17.0 --verbose --file=c:\vcs\github\wildfly-datasources-galleon-pack\target\wildfly-datasources-galleon-pack-1.0.5.Final-SNAPSHOT.zip --dir=c:/wildfly17-galleon-all-17
+[tibor17]$ install --verbose --file=c:\vcs\github\wildfly-datasources-galleon-pack\target\wildfly-datasources-galleon-pack-1.0.5.Final-SNAPSHOT.zip --dir=c:/wildfly17-galleon-all-17
+[tibor17]$ install C:\vcs\github\galleon-openshift\drivers-galleon-pack\postgresql-driver\target\user-feature-pack-layout\org.wildfly.galleon.demo\postgresql-galleon-pack\1.0.0.Final\feature-pack.xml --verbose --dir=c:/wildfly17-galleon-all-17
+[tibor17]$ install c:\vcs\github\wildfly-datasources-galleon-pack\target\wildfly-datasources-galleon-pack-1.0.5.Final-SNAPSHOT.zip --verbose --dir=c:/wildfly17-galleon-all-17
+[tibor17]$ install --verbose --file=c:\vcs\github\wildfly-datasources-galleon-pack\target\wildfly-datasources-galleon-pack-1.0.5.Final-SNAPSHOT.zip --dir=c:/wildfly17-galleon-all-17
+[tibor17]$ install --verbose --file=c:\vcs\github\wildfly-datasources-galleon-pack\target\wildfly-datasources-galleon-pack-1.0.5.Final-SNAPSHOT.zip --dir=c:/wildfly17-galleon-all-17
+[tibor17]$ install --verbose --file=c:\vcs\github\wildfly-datasources-galleon-pack\target\wildfly-datasources-galleon-pack-1.0.5.Final-SNAPSHOT.zip
+[tibor17]$ install wildfly:current --verbose --file=c:\vcs\github\wildfly-datasources-galleon-pack\target\wildfly-datasources-galleon-pack-1.0.5.Final-SNAPSHOT.zip
+[tibor17]$ install wildfly:17.0#17.0.1.Final --verbose --file=c:\vcs\github\wildfly-datasources-galleon-pack\target\wildfly-datasources-galleon-pack-1.0.5.Final-SNAPSHOT.zip
+[tibor17]$ install wildfly@maven(org.jboss.universe:community-universe):17.0#17.0.1.Final --verbose --file=c:\vcs\github\wildfly-datasources-galleon-pack\target\wildfly-datasources-galleon-pack-1.0.5.Final-SNAPSHOT.zip
+[tibor17]$ install --verbose --file=c:\vcs\github\wildfly-datasources-galleon-pack\target\wildfly-datasources-galleon-pack-1.0.5.Final-SNAPSHOT.zip
+[tibor17]$ provision provisioning.xml --dir=c:/wildfly17-galleon-all-17
+[tibor17]$ install --verbose --file=c:\vcs\github\wildfly-datasources-galleon-pack\target\wildfly-datasources-galleon-pack-1.0.5.Final-SNAPSHOT.zip
+[tibor17]$ install --verbose --file=c:\vcs\github\wildfly-datasources-galleon-pack\target\wildfly-datasources-galleon-pack-1.0.5.Final-SNAPSHOT.zip
+[tibor17]$ install wildfly:17.0#17.0.1.Final --verbose --file=c:\vcs\github\wildfly-datasources-galleon-pack\target\wildfly-datasources-galleon-pack-1.0.5.Final-SNAPSHOT.zip
+
+
+
+
+
+
+
+
+
+
+

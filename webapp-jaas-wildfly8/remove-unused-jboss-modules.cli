@@ -1,0 +1,13 @@
+#
+# https://download.primekey.se/docs/EJBCA-Enterprise/latest/WildFly_14___JBoss_EAP_7.2.html
+#
+
+batch
+/subsystem=jdr:remove()
+/subsystem=sar:remove()
+/subsystem=pojo:remove()
+/extension=org.jboss.as.jdr:remove()
+/extension=org.jboss.as.sar:remove()
+/extension=org.jboss.as.pojo:remove()
+run-batch
+:reload

@@ -1,0 +1,27 @@
+set login=${POSTGRESQL_LOGIN}
+set pswd=${POSTGRESQL_PSWD}
+set host=${POSTGRESQL_HOST}
+set port=${POSTGRESQL_PORT}
+set database=${POSTGRESQL_DB}
+
+if (outcome != success) of /subsystem="datasources"/xa-data-source="UserDS":read-resource
+    /subsystem=datasources/xa-data-source="UserDS":add( \
+        jndi-name="java:jboss/datasources/UserDS", \
+        user-name=${login}, \
+        password=${pswd}, \
+        xa-datasource-class=org.postgresql.xa.PGXADataSource, \
+        driver-name="postgres", \
+        check-valid-connection-sql="select 1", \
+        min-pool-size=1, \
+        max-pool-size=20, \
+        valid-connection-checker-class-name=org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLValidConnectionChecker, \
+        exception-sorter-class-name=org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLExceptionSorter, \
+        validate-on-match=false, \
+        background-validation=true, \
+        background-validation-millis=25000, \
+        idle-timeout-minutes=1)
+    /subsystem=datasources/xa-data-source="UserDS"/xa-datasource-properties=ServerName:add(value=${host})
+    /subsystem=datasources/xa-data-source="UserDS"/xa-datasource-properties=PortNumber:add(value=${port})
+    /subsystem=datasources/xa-data-source="UserDS"/xa-datasource-properties=DatabaseName:add(value=${database})
+end-if
+:reload
