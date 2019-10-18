@@ -183,6 +183,62 @@ Add the SQL driver for the PostgresSQL database
 
 and add the http://repo1.maven.org/maven2/org/postgresql/postgresql/42.2.8/postgresql-42.2.8.jar[driver] to the directory `$WILDFLY_HOME/modules/org/postgres/main/`.
 
+Install link:https://www.postgresql.org/download/[PostgreSQL database], create the database `jaaswf8`
+
+====
+[source, sql, linenums]
+[subs="verbatim,attributes"]
+----
+-- Database: jaaswf8
+
+-- DROP DATABASE jaaswf8;
+
+CREATE DATABASE jaaswf8
+    WITH
+    OWNER = postgres
+    ENCODING = 'UTF8'
+    LC_COLLATE = 'English_United States.1250'
+    LC_CTYPE = 'English_United States.1250'
+    TABLESPACE = pg_default
+    CONNECTION LIMIT = -1;
+----
+====
+
+and create the tables for JAAS
+
+====
+[source, sql, linenums]
+[subs="verbatim,attributes"]
+----
+CREATE TABLE public.userroles
+(
+    username character varying(255) COLLATE pg_catalog."default",
+    role character varying(32) COLLATE pg_catalog."default"
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.userroles
+    OWNER to postgres;
+
+CREATE TABLE public.users
+(
+    username character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    passwd character varying(255) COLLATE pg_catalog."default",
+    CONSTRAINT users_pkey PRIMARY KEY (username)
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.users
+    OWNER to postgres;
+----
+====
+
 Now run the server
 
 ====
@@ -195,7 +251,8 @@ $ $WILDFLY_HOME/bin/standalone.sh -c standalone.xml -Djboss.server.config.dir=/o
 
 This is the same configuration of Wildfly runtime in IntelliJ IDEA:
 
-image:docs/wildfly-8.2.1-intellij-idea-Run_Debug_Configurations.jpg[width=90%,role="left"]
+image:docs/wildfly-8.2.1-intellij-idea-Run_Debug_Configurations.jpg[width=100%,role="left"]
+
 
 == Build docker image and run with external PostgreSQL database
 
