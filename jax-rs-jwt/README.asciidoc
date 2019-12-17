@@ -1,0 +1,302 @@
+= JSON Web Token
+:revdate: {docdate}
+:toc: left
+:sectanchors:
+:Author: Tibor Digaňa
+:numbered:
+:star: *
+
+This is a standard format of the JWT token.
+
+== System architecture with JWT
+
+Briefly about https://en.wikipedia.org/wiki/JSON_Web_Token[JSON Web Token].
+
+What is https://jwt.io/introduction/[JSON Web Token]?
+
+See the JWT Debugger https://jwt.io/[here].
+
+image::docs/architecture.png[]
+
+== Structure of JWT by RFC 7519
+
+The JWT token is defined by the https://tools.ietf.org/html/rfc7519[standard - RFC 7519].
+The structure of the token is composed of three parts:
+
+. JOSE Header
+. JWT encoded Claims
+. Signature (https://tools.ietf.org/html/rfc4949[ciphered] or https://tools.ietf.org/html/rfc7515[JSON Web Signature] or https://tools.ietf.org/html/rfc7516[JSON Web Encryption])
+
+The contents of the JOSE Header describe the cryptographic operations
+applied to the JWT Claims Set.
+
+If the JOSE Header goes for JWE, the plain text claims are encrypted by the JWE
+If the JOSE Header goes for JWS, the claims are digitally signed or MACed and the JWT Claims are being the (binary) JWS Payload.
+JWSs have a "payload" member and JWEs do not. JWEs have a "ciphertext" member and JWSs do not.
+
+This JSON object is the JWT Claims Set encoded in a
+JWS and/or JWE structure. This JSON object consists of name/value paris.
+
+Example with JOSE Header:
+[source,json,subs="verbatim,attributes"]
+----
+{
+    "typ": "JWT",
+    "cty": "JWT",
+    "alg": "HS256"
+}
+----
+
+The specification https://tools.ietf.org/html/rfc7517[RFC 7517] declares key fields for the cryptographic algorithms in JOSE Header.
+The list of possible JWT cryptographic algorithms is specified in Chapter 3.1 of the standard https://tools.ietf.org/html/rfc7518[RFC 7518].
+
+Example with JWT Claims:
+[source,json,subs="verbatim,attributes"]
+----
+{
+    "iss": "joe",
+    "exp": "1300819380",
+    "http://example.com/is_root": true
+}
+----
+
+The JSON is base64url-encoded(octets).
+
+The HTTP Header `Authorization` becomes
+[subs="verbatim,attributes"]
+----
+Authorization: Bearer <ASCII(BASE64URL-ENCODED(UTF8(<JOSE Header JSON>)))>.<ASCII(BASE64URL-ENCODED(UTF8(<JWT Claims JSON>)))>.<SIGNATURE>
+----
+
+The JWS `SIGNATURE` is computed using the secret key and the sequence of stringify of two JSON objects separated by `.`:
+[subs="verbatim,attributes"]
+----
+ARG = <ASCII(BASE64URL-ENCODED(UTF8(<JOSE Header JSON>)))>.<ASCII(BASE64URL-ENCODED(UTF8(<JWT Claims JSON>)))>
+SIGNATURE = BASE64URL-ENCODED(HMACSHA256(ARG))
+----
+
+This picture describes the principle with JWS:
+
+image::docs/jws.png[]
+
+
+== Example with JWT token
+
+This is the header and claims JSON:
+[source,json,subs="verbatim,attributes"]
+----
+{
+    "type": "JWT",
+    "alg": "HS256"
+}
+----
+
+[source,json,subs="verbatim,attributes"]
+----
+{
+    "aud": [
+        "https://www.facebook.com/name.surname"
+    ],
+    "exp": 1575996105,
+    "iat": 1575995985,
+    "iss": "https://www.identity-access-management.com/iam",
+    "jti": "c9e8a4d6-b3d8-4d75-9a1a-c66a2fd170c9",
+    "nbf": 1575995986,
+    "sub": "/idm/users/1234567"
+}
+----
+
+This unit test verifies the signature computed upon the JWT Header and Claims.
+We do not use any external libraries. One can see only Java SE API:
+
+[source,java,subs="verbatim,attributes"]
+----
+public class RFC7519Test {
+    private static Base64.Encoder encoder;
+
+    @BeforeClass
+    public static void setup() {
+        encoder = Base64.getUrlEncoder().withoutPadding();
+    }
+
+    @Test
+    public void compatibleSignatureWithJwtIo() throws Exception {
+        String json = "{\"type\":\"JWT\",\"alg\":\"HS256\"}";
+        String joseHeaderBase64UrlEncodedAscii = encoder.encodeToString(json.getBytes(UTF_8));
+
+        String claims = "{\"iss\":\"joe\",\"exp\":1300819380,\"http://example.com/is_root\":true}";
+        String claimsBase64UrlEncodedAscii = encoder.encodeToString(claims.getBytes(UTF_8));
+
+        String jwt = joseHeaderBase64UrlEncodedAscii + "." + claimsBase64UrlEncodedAscii;
+
+        Mac hMac = Mac.getInstance("HmacSHA256");
+        SecretKeySpec keySpec = new SecretKeySpec("your-256-bit-secret".getBytes(UTF_8), "HmacSHA256");
+        hMac.init(keySpec);
+        byte[] digest = hMac.doFinal(jwt.getBytes(US_ASCII));
+        String digitalSignatureMaced = encoder.encodeToString(digest);
+
+        assertThat(digitalSignatureMaced)
+                .isEqualTo("L1Ajx9DMe_F8zAMxU1RlBbAqs0Yg0pBGecYNQL5d-IU");
+    }
+}
+----
+
+image::docs/jwt.io.png[]
+
+== Performance of JWS crypto algorithms
+
+The algorithms for the _"alg" (Algorithm) Header Parameter Values_ is listed in the
+https://tools.ietf.org/html/rfc7518#section-3.1[Chapter 3.1 of RFC 7518]. The default algorithm with digital signatures
+is _HS256_.
+
+|===
+|"alg" Param Value |Digital Signature or MAC Algorithm |Implementation Requirements
+
+|HS256
+|HMAC using SHA-256
+|Required
+
+|HS384
+|HMAC using SHA-384
+|Optional
+
+|HS512
+|HMAC using SHA-512
+|Optional
+
+|RS256
+|RSASSA-PKCS1-v1_5 using SHA-256
+|Recommended
+
+|RS384
+|RSASSA-PKCS1-v1_5 using SHA-384
+|Optional
+
+|RS512
+|RSASSA-PKCS1-v1_5 using SHA-512
+|Optional
+
+|ES256
+|ECDSA using P-256 and SHA-256
+|Recommended+
+
+|ES384
+|ECDSA using P-384 and SHA-384
+|Optional
+
+|ES512
+|ECDSA using P-512 and SHA-512
+|Optional
+
+|PS256
+|RSASSA-PSS using SHA-256 and MGF1 with SHA-256
+|Optional
+
+|PS384
+|RSASSA-PSS using SHA-384 and MGF1 with SHA-384
+|Optional
+
+|PS512
+|RSASSA-PSS using SHA-512 and MGF1 with SHA-512
+|Optional
+
+|none
+|No digital signature or MAC performed
+|Optional
+|===
+
+The performance of HMAC is the most fast algorithm, https://web-token.spomky-labs.com/benchmarks/result-table[see more here].
+Nevertheless the HMAC is fast you should not use it in the external/public services. If one public service
+is compromised with HMAC then all services are compromised due to the secret key is shared the same.
+The public services must be using either different symmetric shared keys or one pair of asymmetric keys.
+
+What is HMAC algorithm, http://krytosvirus.com/text/HMAC[see more here]?
+
+```
+HMAC(M) = H[(K+opad) & H[(k+ipad) & M]]
+M = Message
+H[] = Underlying Hash function
+K = Shared Secret Key
+opad = 36hex, repeated as needed
+ipad = 5Chex, repeated as needed
+& = concatenation operation
++ = XOR operation
+```
+
+|===
+|subject |groups |mean time
+
+|sign
+|JWS,ECDSA,ES256
+|139.144μs
+
+|verify
+|JWS,ECDSA,ES256
+|223.170μs
+
+|sign
+|JWS,hmac,*HS256*
+|*19.593μs*
+
+|verify
+|JWS,hmac,*HS256*
+|*24.045μs*
+
+|sign
+|JWS,RSASign,PS256
+|1,310.264μs
+
+|verify
+|JWS,RSASign,PS256
+|121.113μs
+
+|encrypt and decrypt
+|JWE,GCMKW,A256GCMKW
+|60.966μs
+
+|encrypt and decrypt
+|JWE,KW,A256KW
+|93.840μs
+|===
+
+
+== JWT Security
+
+This is a practical https://www.youtube.com/watch?v=DPrhem174Ws[video] with JWT security.
+
+
+== Misuse of the Cookie attributes and standard JWT Claims
+
+The developers use custom Cookie attributes in https://www.youtube.com/watch?v=67mezK3NzpU[their web applications].
+The Cookies contain custom attributes
+*Domain*, *Path*, *Session ID* however the JWT format already contains such Claims in JWT (iss, sub, aud, jti).
+
+Some developers store the refresh token in cookies, see https://blog.hasura.io/best-practices-of-using-jwt-with-graphql/[here].
+The old refresh token is sent to the Authentication server (_Cookie: refresh_token_), a new refresh token is observed
+from the Authentication server and the the token is stored to the (_Cookie: new_refresh_token_).
+
+The short lived access token is refreshed via so called refresh token which survives days or even much longer.
+
+
+== OAuth2 References
+
+image::docs/jwt-auth.png[]
+
+* https://backstage.forgerock.com/knowledge/kb/article/a45882528[OAuth with cURL]
+* https://fusionauth.io/learn/expert-advice/tokens/revoking-jwts[The API Architecture with JWT in FusionAuth]
+* https://www.pingidentity.com/en/company/blog/posts/2019/oauth2-access-token-multiple-resources-usage-strategies.html[OAuth 2 Access Token Usage Strategies for Multiple Resources (APIs): Part 1]
+* https://medium.com/@robert.broeckelmann/oauth2-access-token-usage-strategies-for-multiple-resources-apis-part-2-304bab2570a9[OAuth2 Access Token Usage Strategies for Multiple Resources (APIs) Part 2]
+* https://medium.com/swlh/auth-with-json-web-tokens-bcrypt-part-i-rails-3afd71751ea[GitHub solution]
+
+
+== Conclusion
+
+The OAuth and JWT is not useful is a typical Client-to-Server web application, see more
+https://security.stackexchange.com/questions/116771/why-refresh-tokens-are-used?rq=1[here].
+The JWT tokens are usually stateless and they have very short timeout. This is for two reasons. One reason is that
+the JWT token can be stolen in any mobile application with low security in your mobile phone. And the second reason
+is that too long timeout or stateful tokens would consume too much memory.
+
+The JWT is very useful in SSO.
+
+

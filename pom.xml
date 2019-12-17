@@ -14,6 +14,7 @@
         <module>thorntail-links</module>
         <module>docker-images</module>
         <module>webapp-jaas-wildfly17</module>
+        <module>jax-rs-jwt</module>
     </modules>
 
     <properties>
@@ -47,9 +48,36 @@
                 <version>5.3</version>
             </dependency>
             <dependency>
+                <groupId>com.google.code.findbugs</groupId>
+                <artifactId>jsr305</artifactId>
+                <version>2.0.3</version>
+            </dependency>
+            <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>4.12</version>
+            </dependency>
+            <dependency>
+                <groupId>org.assertj</groupId>
+                <artifactId>assertj-core</artifactId>
+                <version>3.11.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse</groupId>
+                <artifactId>yasson</artifactId>
+                <version>1.0.5</version>
+            </dependency>
+            <dependency>
+                <!-- https://github.com/lukas-krecan/JsonUnit -->
+                <groupId>net.javacrumbs.json-unit</groupId>
+                <artifactId>json-unit-fluent</artifactId>
+                <version>2.11.1</version>
+            </dependency>
+            <dependency>
+                <!--required by json-unit-fluent-->
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>2.9.6</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -77,6 +105,11 @@
                     <groupId>com.spotify</groupId>
                     <artifactId>dockerfile-maven-plugin</artifactId>
                     <version>1.4.12</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>keytool-maven-plugin</artifactId>
+                    <version>1.5</version>
                 </plugin>
             </plugins>
         </pluginManagement>

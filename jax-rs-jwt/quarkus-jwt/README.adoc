@@ -1,0 +1,52 @@
+
+
+docker build -t tibor17/quarkus-jwt:latest -f Dockerfile.jvm .
+docker run -it --rm -p 8080:8080 tibor17/quarkus-jwt:latest
+c:\vcs\release\webapp-security\jax-rs-jwt\quarkus-jwt>"c:\Program Files\Java\jdk-13\bin\java" -jar quarkus-jwt-1.0.0-SNAPSHOT-runner.jar
+
+
+[source,textmate,subs="verbatim,attributes"]
+----
+$ keytool -list -v -keystore target/keystore.jks
+Enter keystore password:
+
+Keystore type: JKS
+Keystore provider: SUN
+
+Your keystore contains 1 entry
+
+Alias name: quarkus
+Creation date: Jan 6, 2020
+Entry type: PrivateKeyEntry
+Certificate chain length: 1
+Certificate[1]:
+Owner: CN=www.github.com, OU=Development, L=Zilina, ST=SR, O=GitHub, C=Slovakia
+Issuer: CN=www.github.com, OU=Development, L=Zilina, ST=SR, O=GitHub, C=Slovakia
+Serial number: 29670baf
+Valid from: Mon Jan 06 03:25:11 CET 2020 until: Tue Jan 07 03:25:11 CET 2020
+Certificate fingerprints:
+         MD5:  1C:59:7A:06:41:AD:4F:A4:96:BD:0E:8A:A5:BC:10:92
+         SHA1: 7E:9F:FE:A3:7D:C0:20:88:8A:C3:E4:32:15:80:05:03:C6:8C:BB:14
+         SHA256: 5C:90:97:9E:A4:C3:76:97:2E:73:A3:DA:CD:D4:BD:80:06:9D:D1:F7:B2:08:DE:EE:EE:82:72:F7:80:8E:FF:4E
+         Signature algorithm name: SHA256withRSA
+         Version: 3
+
+Extensions:
+
+#1: ObjectId: 2.5.29.14 Criticality=false
+SubjectKeyIdentifier [
+KeyIdentifier [
+0000: BA 55 AC 8A B8 49 39 FC   27 3C 32 67 99 A0 52 E2  .U...I9.'<2g..R.
+0010: 12 A0 E4 65                                        ...e
+]
+]
+
+
+
+*******************************************
+*******************************************
+
+
+
+----
+
